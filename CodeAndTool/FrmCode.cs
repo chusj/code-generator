@@ -1,16 +1,8 @@
 ﻿using SqlSugar;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace CodeAndTool
 {
@@ -50,6 +42,10 @@ namespace CodeAndTool
         public FrmCode(string connstr)
         {
             InitializeComponent();
+
+            //禁止放大缩小；并居中
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
             ConnStr = connstr;
 

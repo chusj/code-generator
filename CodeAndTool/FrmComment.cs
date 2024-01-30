@@ -16,6 +16,9 @@ namespace CodeAndTool
         public FrmComment(string connStr)
         {
             InitializeComponent();
+            //禁止放大缩小；并居中
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
             ConnStr = connStr;
 

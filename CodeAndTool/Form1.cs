@@ -68,7 +68,8 @@ namespace CodeAndTool
         /// </summary>
         private void btnComment_Click(object sender, EventArgs e)
         {
-
+            FrmComment code = new FrmComment(ConnStr);
+            code.Show();
         }
 
         private void btnNewField_Click(object sender, EventArgs e)
