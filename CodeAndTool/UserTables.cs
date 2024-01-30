@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeAndTool
+﻿namespace CodeAndTool
 {
-	/// <summary>
-	/// 用户表，对应视图：user_tables
-	/// </summary>
-	public class UserTables
+    /// <summary>
+    /// 用户表，对应视图：user_tables
+    /// </summary>
+    public class UserTables
 	{
 		/// <summary>
 		/// 表名
