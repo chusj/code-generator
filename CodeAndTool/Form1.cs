@@ -59,7 +59,8 @@ namespace CodeAndTool
         /// </summary>
         private void btnCode_Click(object sender, EventArgs e)
         {
-
+            FrmCode code = new FrmCode(ConnStr);
+            code.Show();
         }
 
         /// <summary>
