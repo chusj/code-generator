@@ -21,19 +21,21 @@ namespace CodeAndTool
             //ConfigurationManager.AppSettings["FileSavePath"];
 
             //读取数据库连接文件，并读取内容
-            string DbConnFile = ConfigurationManager.AppSettings["DbConnFile"];
-            if (string.IsNullOrEmpty(DbConnFile))
+            string path = ConfigurationManager.AppSettings["FileSavePath"];
+            string fileName = ConfigurationManager.AppSettings["DbConnFile"];
+            string fullName = path + fileName;
+            if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(fileName))
             {
                 toolStripStatusLabel1.Text = "Db配置文件缺失";
             }
-            else if (!File.Exists(DbConnFile))
+            else if (!File.Exists(fullName))
             {
                 toolStripStatusLabel1.Text = "文件不存在";
             }
             else
             {
-                txbDbConn.Text = DbConnFile.Trim();
-                ConnStr = File.ReadAllText(DbConnFile);
+                txbDbConn.Text = fullName.Trim();
+                ConnStr = File.ReadAllText(txbDbConn.Text);
 
                 toolStripStatusLabel1.Text = "Db连接成功，服务器时间：" + InitDb().Ado.GetString("select sysdate from dual");
             }
@@ -75,7 +77,7 @@ namespace CodeAndTool
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            string folderPath = txbDbConn.Text.Trim(); // 指定文件夹路径
+            string folderPath = ConfigurationManager.AppSettings["FileSavePath"].Trim(); // 指定文件夹路径
 
             if (Directory.Exists(folderPath))
             {
