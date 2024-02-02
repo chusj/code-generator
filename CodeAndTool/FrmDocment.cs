@@ -12,9 +12,34 @@ namespace CodeAndTool
 {
     public partial class FrmDocment : Form
     {
-        public FrmDocment()
+        private string ConnStr = string.Empty;
+
+        public FrmDocment(string connStr)
         {
             InitializeComponent();
+            ConnStr = connStr;
+
+            txbConnstr.Text = connStr;
+        }
+
+        private void btnWord_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnHtml_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPdf_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnMarkdown_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

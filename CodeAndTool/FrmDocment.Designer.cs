@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            textBox1 = new TextBox();
+            txbConnstr = new TextBox();
             label2 = new Label();
             labDbType = new Label();
             btnMarkdown = new Button();
@@ -47,13 +47,13 @@
             label1.TabIndex = 0;
             label1.Text = "链接字符串：";
             // 
-            // textBox1
+            // txbConnstr
             // 
-            textBox1.Location = new Point(108, 72);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(649, 131);
-            textBox1.TabIndex = 1;
+            txbConnstr.Location = new Point(108, 72);
+            txbConnstr.Multiline = true;
+            txbConnstr.Name = "txbConnstr";
+            txbConnstr.Size = new Size(649, 131);
+            txbConnstr.TabIndex = 1;
             // 
             // label2
             // 
@@ -81,6 +81,7 @@
             btnMarkdown.TabIndex = 4;
             btnMarkdown.Text = "Markdown格式";
             btnMarkdown.UseVisualStyleBackColor = true;
+            btnMarkdown.Click += btnMarkdown_Click;
             // 
             // btnWord
             // 
@@ -90,6 +91,7 @@
             btnWord.TabIndex = 5;
             btnWord.Text = "Word格式";
             btnWord.UseVisualStyleBackColor = true;
+            btnWord.Click += btnWord_Click;
             // 
             // btnHtml
             // 
@@ -99,6 +101,7 @@
             btnHtml.TabIndex = 6;
             btnHtml.Text = "Html格式";
             btnHtml.UseVisualStyleBackColor = true;
+            btnHtml.Click += btnHtml_Click;
             // 
             // btnPdf
             // 
@@ -108,6 +111,7 @@
             btnPdf.TabIndex = 7;
             btnPdf.Text = "PDF格式";
             btnPdf.UseVisualStyleBackColor = true;
+            btnPdf.Click += btnPdf_Click;
             // 
             // FrmDocment
             // 
@@ -120,7 +124,7 @@
             Controls.Add(btnMarkdown);
             Controls.Add(labDbType);
             Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(txbConnstr);
             Controls.Add(label1);
             Name = "FrmDocment";
             Text = "数据库说明文档";
@@ -131,7 +135,7 @@
         #endregion
 
         private Label label1;
-        private TextBox textBox1;
+        private TextBox txbConnstr;
         private Label label2;
         private Label labDbType;
         private Button btnMarkdown;
