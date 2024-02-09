@@ -74,7 +74,6 @@ namespace CodeAndTool
 
         private void btnNewField_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("功能开发中……");
             FrmDocment code = new FrmDocment(ConnStr);
             code.Show();
         }
