@@ -71,9 +71,15 @@ namespace CodeAndTool
             {
                 sb.AppendFormat("### {0}{1}", table.table_name, NewLine);
                 sb.AppendFormat("#### {0}{1}", table.comments, NewLine);
-                sb.Append("| 列标题1 | 列标题2 | 列标题3 |");
+
+               
+                //表头
+                sb.Append("| 字段名 | 类型(长度) | 说明 |");
                 sb.Append('\n');
                 sb.Append("| --- | --- | --- |");
+
+                //List<UserTableColumns> columns = SearchFieldInfo(table.table_name);
+
                 sb.Append('\n');
                 sb.Append("| 单元格内容1 | 单元格内容2 | 单元格内容3 |");
                 sb.Append('\n');
@@ -81,6 +87,10 @@ namespace CodeAndTool
                 sb.Append('\n');
 
                 sb.Append('\n');
+
+
+               
+
                 /*
                 | 列标题1 | 列标题2 | 列标题3 |
                 | --- | --- | --- |
@@ -138,6 +148,20 @@ namespace CodeAndTool
             }
 
             return tables;
+        }
+
+
+        private List<UserTableColumns> SearchFieldInfo(string tableName)
+        {
+            //2.获取列信息
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select table_name, column_name, data_type, data_length, data_precision, data_scale, data_default, column_id,");
+            sb.Append("(select comments from user_col_comments b where a.table_name = b.table_name and a.column_name = b.column_name) as comments");
+            sb.AppendFormat(" from user_tab_columns a where table_name = '{0}' order by a.column_id", tableName);
+
+            List<UserTableColumns> columnList = InitDb().Ado.SqlQuery<UserTableColumns>(sb.ToString());
+
+            return columnList;
         }
     }
 }
