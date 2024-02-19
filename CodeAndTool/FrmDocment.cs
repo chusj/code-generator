@@ -63,13 +63,31 @@ namespace CodeAndTool
 
         private string AppendMarkdown(List<UserTables> tables)
         {
+            string NewLine = "\n";
+
             StringBuilder sb = new StringBuilder();
 
             foreach (UserTables table in tables)
             {
-                sb.AppendFormat("### {0}{1}   ", table.table_name,"\n");
-                sb.AppendFormat("#### {0}   ", table.comments);
-                sb.Append("\n");
+                sb.AppendFormat("### {0}{1}", table.table_name, NewLine);
+                sb.AppendFormat("#### {0}{1}", table.comments, NewLine);
+                sb.Append("| 列标题1 | 列标题2 | 列标题3 |");
+                sb.Append('\n');
+                sb.Append("| --- | --- | --- |");
+                sb.Append('\n');
+                sb.Append("| 单元格内容1 | 单元格内容2 | 单元格内容3 |");
+                sb.Append('\n');
+                sb.Append("| 单元格内容4 | 单元格内容5 | 单元格内容6 |");
+                sb.Append('\n');
+
+                sb.Append('\n');
+                /*
+                | 列标题1 | 列标题2 | 列标题3 |
+                | --- | --- | --- |
+                | 单元格内容1 | 单元格内容2 | 单元格内容3 |
+                | 单元格内容4 | 单元格内容5 | 单元格内容6 |
+                 */
+
             }
 
             return sb.ToString();
