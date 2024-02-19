@@ -67,12 +67,9 @@ namespace CodeAndTool
 
             foreach (UserTables table in tables)
             {
-                sb.Append("### ");
-                sb.Append(table.table_name);
-                sb.Append("    ");
-                sb.Append("#### ");
-                sb.Append(table.comments);
-                sb.Append("    ");
+                sb.AppendFormat("### {0}{1}   ", table.table_name,"\n");
+                sb.AppendFormat("#### {0}   ", table.comments);
+                sb.Append("\n");
             }
 
             return sb.ToString();
@@ -109,7 +106,7 @@ namespace CodeAndTool
             int i = 0;
             foreach (DataRow dr in dt.Rows)
             {
-                if(i > 10)
+                if (i > 10)
                 {
                     break;
                 }
