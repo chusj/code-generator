@@ -80,8 +80,7 @@ namespace CodeAndTool
             sb.Append("<body>");
             sb.Append(" <div class=\"container\">");
 
-            sbNav.Append("<div class=\"row clearfix\"><ol>");
-
+            sbNav.Append("<div class=\"row clearfix\"><div class=\"col-md-2 column\"><ol>");
             sbContent.Append("<div class=\"col-md-10 column\">");
             foreach (UserTables table in tables)
             {
@@ -214,7 +213,7 @@ namespace CodeAndTool
             int i = 0;
             foreach (DataRow dr in dt.Rows)
             {
-                if (i > 100)
+                if (i > 2)
                 {
                     break;
                 }
@@ -224,7 +223,7 @@ namespace CodeAndTool
 
                 tables.Add(userTables);
 
-                i++;
+                //i++;
             }
 
             return tables;
