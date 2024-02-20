@@ -6,9 +6,14 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
+using static System.Windows.Forms.LinkLabel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace CodeAndTool
 {
@@ -43,7 +48,70 @@ namespace CodeAndTool
 
         private void btnHtml_Click(object sender, EventArgs e)
         {
+            string diskPath = ConfigurationManager.AppSettings["FileSavePath"];
+            string fileName = DateTime.Now.ToString("yyyy-MM-dd") + ".html"; //处理文件名
+            string filePath = Path.Combine(diskPath, fileName);
+            string content = AppendHtml(SearchTableInfo());
 
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.Write(content);
+            }
+        }
+
+
+        private string AppendHtml(List<UserTables> tables)
+        {
+            StringBuilder sb = new StringBuilder();        //主html
+            StringBuilder sbNav = new StringBuilder();     //导航div
+            StringBuilder sbContent = new StringBuilder(); //内容div
+
+            sb.Append("<!DOCTYPE html>");
+            sb.Append("<html>");
+
+            sb.Append("<head>");
+            sb.Append("<meta charset=\"utf-8\"> ");
+            sb.Append("<title>数据库说明文档,HTML格式</title>");
+            sb.Append("<link rel=\"stylesheet\" href=\"https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css\"> ");
+            sb.Append("<script src=\"https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js\"></script>");
+            sb.Append("<script src=\"https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js\"></script>");
+            sb.Append("</head>");
+
+            sb.Append("<body>");
+            sb.Append(" <div class=\"container\">");
+
+            sbNav.Append("<div class=\"row clearfix\"><ol>");
+
+            sbContent.Append("<div class=\"col-md-10 column\">");
+            foreach (UserTables table in tables)
+            {
+                sbNav.AppendFormat("<li> <a href=\"#{0}\">{1}</a></li>", table.table_name, table.table_name);
+
+                sbContent.AppendFormat("<h3>{0}</h3>", table.table_name);
+                sbContent.AppendFormat("<p>{0}</p>", table.comments);
+                sbContent.AppendFormat(" <table id=\"{0}\" class=\"table\">", table.table_name);
+                sbContent.Append("<thead><tr><th>字段</th><th>类型（长度）</th><th>说明</th></tr> </thead><tbody>");
+
+                List<UserTableColumns> columns = SearchFieldInfo(table.table_name);
+                foreach (UserTableColumns column in columns)
+                {
+                    sbContent.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", column.column_name, column.data_type, column.comments);
+                }
+                sbContent.Append("</tbody></table>");
+            }
+
+            sbNav.Append("</ol></div>");
+            sbContent.Append("</div>");
+
+            //拼接导航和内容到正文中
+            sb.Append(sbNav.ToString());
+            sb.Append(sbContent.ToString());
+
+            sb.Append("</div>");
+            sb.Append("</body>");
+            sb.Append("</html>");
+
+            return sb.ToString();
         }
 
         private void btnPdf_Click(object sender, EventArgs e)
@@ -58,7 +126,7 @@ namespace CodeAndTool
             string content = AppendMarkdown(SearchTableInfo());
 
             CreateFile(path, content);
-            this.toolStripStatusLabel1.Text =  "Markdown文件创建成功，" + DateTime.Now.ToString("hh:mm:ss");
+            this.toolStripStatusLabel1.Text = "Markdown文件创建成功，" + DateTime.Now.ToString("hh:mm:ss");
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Green;
         }
 
@@ -146,7 +214,7 @@ namespace CodeAndTool
             int i = 0;
             foreach (DataRow dr in dt.Rows)
             {
-                if (i > 10)
+                if (i > 100)
                 {
                     break;
                 }
