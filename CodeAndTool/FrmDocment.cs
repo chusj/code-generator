@@ -58,53 +58,61 @@ namespace CodeAndTool
             string content = AppendMarkdown(SearchTableInfo());
 
             CreateFile(path, content);
-
+            this.toolStripStatusLabel1.Text =  "Markdown文件创建成功，" + DateTime.Now.ToString("hh:mm:ss");
+            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Green;
         }
 
+        /// <summary>
+        /// 拼接Markdown
+        /// </summary>
+        /// <param name="tables"></param>
+        /// <returns></returns>
         private string AppendMarkdown(List<UserTables> tables)
         {
             string NewLine = "\n";
-
             StringBuilder sb = new StringBuilder();
 
             foreach (UserTables table in tables)
             {
-                sb.AppendFormat("### {0}{1}", table.table_name, NewLine);
-                sb.AppendFormat("#### {0}{1}", table.comments, NewLine);
+                //表名和注释
+                sb.AppendFormat("### {0}{1} ", table.table_name, NewLine);
+                sb.AppendFormat("#### {0}{1} ", table.comments, NewLine);
 
-               
+
                 //表头
                 sb.Append("| 字段名 | 类型(长度) | 说明 |");
                 sb.Append('\n');
                 sb.Append("| --- | --- | --- |");
-
-                //List<UserTableColumns> columns = SearchFieldInfo(table.table_name);
-
-                sb.Append('\n');
-                sb.Append("| 单元格内容1 | 单元格内容2 | 单元格内容3 |");
-                sb.Append('\n');
-                sb.Append("| 单元格内容4 | 单元格内容5 | 单元格内容6 |");
                 sb.Append('\n');
 
+                //字段
+                List<UserTableColumns> columns = SearchFieldInfo(table.table_name);
+                foreach (UserTableColumns column in columns)
+                {
+                    string length = column.data_length;
+                    if (column.data_type == "NUMBER")  //NUMBER类型使用精度 + 长度
+                    {
+                        length = column.data_precision + "," + column.data_scale;
+                    }
+                    sb.AppendFormat("| {0} | {1}({2}) | {3} |", column.column_name, column.data_type, length, FrmCode.RemoveNewLine(column.comments));
+                    sb.Append('\n');
+                }
+
                 sb.Append('\n');
 
-
-               
-
-                /*
+                /* markdown 表格语法
                 | 列标题1 | 列标题2 | 列标题3 |
                 | --- | --- | --- |
                 | 单元格内容1 | 单元格内容2 | 单元格内容3 |
                 | 单元格内容4 | 单元格内容5 | 单元格内容6 |
                  */
-
             }
 
             return sb.ToString();
         }
 
         /// <summary>
-        /// 创建Sql文件
+        /// 创建文件
         /// </summary>
         /// <param name="diskPath"></param>
         /// <param name="content">内容</param>
@@ -119,6 +127,10 @@ namespace CodeAndTool
             }
         }
 
+        /// <summary>
+        /// 查询表信息
+        /// </summary>
+        /// <returns></returns>
         private List<UserTables> SearchTableInfo()
         {
             List<UserTables> tables = new List<UserTables>();
@@ -150,7 +162,11 @@ namespace CodeAndTool
             return tables;
         }
 
-
+        /// <summary>
+        /// 查询字段信息
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
         private List<UserTableColumns> SearchFieldInfo(string tableName)
         {
             //2.获取列信息
