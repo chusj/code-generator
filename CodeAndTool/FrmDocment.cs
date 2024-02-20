@@ -59,7 +59,6 @@ namespace CodeAndTool
             }
         }
 
-
         private string AppendHtml(List<UserTables> tables)
         {
             StringBuilder sb = new StringBuilder();        //主html
@@ -80,8 +79,8 @@ namespace CodeAndTool
             sb.Append("<body>");
             sb.Append(" <div class=\"container\">");
 
-            sbNav.Append("<div class=\"row clearfix\"><div class=\"col-md-2 column\"><ol>");
-            sbContent.Append("<div class=\"col-md-10 column\">");
+            sbNav.Append("<div class=\"row clearfix\"><div class=\"col-md-4 column\"><ol>");
+            sbContent.Append("<div class=\"col-md-8 column\">");
             foreach (UserTables table in tables)
             {
                 sbNav.AppendFormat("<li> <a href=\"#{0}\">{1}</a></li>", table.table_name, table.table_name);
@@ -213,7 +212,7 @@ namespace CodeAndTool
             int i = 0;
             foreach (DataRow dr in dt.Rows)
             {
-                if (i > 2)
+                if (i > 10)
                 {
                     break;
                 }
@@ -223,7 +222,7 @@ namespace CodeAndTool
 
                 tables.Add(userTables);
 
-                //i++;
+                i++;
             }
 
             return tables;

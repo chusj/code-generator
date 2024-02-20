@@ -65,7 +65,7 @@
             btnNewField.Name = "btnNewField";
             btnNewField.Size = new Size(156, 57);
             btnNewField.TabIndex = 2;
-            btnNewField.Text = "新增字段";
+            btnNewField.Text = "数据库结构文档";
             btnNewField.UseVisualStyleBackColor = true;
             btnNewField.Click += btnNewField_Click;
             // 
