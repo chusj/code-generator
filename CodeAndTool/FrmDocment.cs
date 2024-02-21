@@ -50,53 +50,99 @@ namespace CodeAndTool
         private string AppendHtml(List<UserTables> tables)
         {
             StringBuilder sb = new StringBuilder();        //主html
-            StringBuilder sbNav = new StringBuilder();     //导航div
-            StringBuilder sbContent = new StringBuilder(); //内容div
 
-            sb.Append("<!DOCTYPE html>");
-            sb.Append("<html>");
+            sb.AppendLine("<!DOCTYPE html>");
+            sb.AppendLine("<html>");
 
-            sb.Append("<head>");
-            sb.Append("<meta charset=\"utf-8\"> ");
-            sb.Append("<title>数据库说明文档,HTML格式</title>");
-            sb.Append("<link rel=\"stylesheet\" href=\"https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css\"> ");
-            sb.Append("<script src=\"https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js\"></script>");
-            sb.Append("<script src=\"https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js\"></script>");
-            sb.Append("</head>");
+            sb.AppendLine("<head>");
+            sb.AppendLine("<meta charset=\"utf-8\"> ");
+            sb.AppendLine("<title>数据库说明文档,HTML格式</title>");
+            sb.AppendLine("<link rel=\"stylesheet\" href=\"https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css\"> ");
+            sb.AppendLine("<script src=\"https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js\"></script>");
+            sb.AppendLine("<script src=\"https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js\"></script>");
+            sb.AppendLine("</head>");
 
-            sb.Append("<body>");
-            sb.Append(" <div class=\"container\">");
+            sb.AppendLine("<body>");
+            sb.AppendLine("<div class=\"container\">");   //div开始1
+            sb.AppendLine("<div class=\"row clearfix\">");//div开始2
 
-            sbNav.Append("<div class=\"row clearfix\"><div class=\"col-md-4 column\"><ol>");
-            sbContent.Append("<div class=\"col-md-8 column\">");
-            foreach (UserTables table in tables)
+            //左侧导航
+            sb.AppendLine("<div class=\"col-md-4 column\">");
+            sb.AppendLine("<ol>");
+            foreach (UserTables t in tables)
             {
-                sbNav.AppendFormat("<li> <a href=\"#{0}\">{1}</a></li>", table.table_name, table.table_name);
-
-                sbContent.AppendFormat("<h3>{0}</h3>", table.table_name);
-                sbContent.AppendFormat("<p>{0}</p>", table.comments);
-                sbContent.AppendFormat(" <table id=\"{0}\" class=\"table\">", table.table_name);
-                sbContent.Append("<thead><tr><th>字段</th><th>类型（长度）</th><th>说明</th></tr> </thead><tbody>");
-
-                List<UserTableColumns> columns = SearchFieldInfo(table.table_name);
-                foreach (UserTableColumns column in columns)
-                {
-                    sbContent.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", column.column_name, column.data_type, column.comments);
-                }
-                sbContent.Append("</tbody></table>");
+                sb.Append(AppendHtmlNavModule(t.table_name));
             }
+            sb.AppendLine("</ol>");
+            sb.AppendLine("</div>");
 
-            sbNav.Append("</ol></div>");
-            sbContent.Append("</div>");
+            //右侧内容
+            sb.AppendLine("<div class=\"col-md-8 column\">");
+            foreach (UserTables t in tables)
+            {
+                sb.Append(AppendHtmlContentModule(t.table_name, t.comments));
+            }
+            sb.AppendLine("</div>");
 
-            //拼接导航和内容到正文中
-            sb.Append(sbNav.ToString());
-            sb.Append(sbContent.ToString());
 
-            sb.Append("</div>");
-            sb.Append("</body>");
-            sb.Append("</html>");
+            //结尾
+            sb.AppendLine("</div>");  //div结束2
+            sb.AppendLine("</div>");  //div结束1
+            sb.AppendLine("</body>");
+            sb.AppendLine("</html>");
 
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// HTML中，导航模块
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        private string AppendHtmlNavModule(string tableName)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<li>");
+            sb.AppendFormat("<a href=\"#{0}\">{1}</a></li>", tableName, tableName);
+            sb.AppendLine("</li>");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// HTML中，内容模块(N个表格)
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        private string AppendHtmlContentModule(string tableName, string comments)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            //表格上方的表名和注释
+            sb.AppendFormat("<h3 id=\"{0}\">{1}</h3>", tableName, tableName);
+            sb.AppendFormat("<p>{0}</p>", comments);
+            sb.AppendLine(" <table class=\"table\">");
+
+            //表头
+            sb.AppendLine("<thead>" +
+                "<tr><th>字段</th>" +
+                "<th>类型（长度）</th>" +
+                "<th>说明</th></tr> </thead>");
+
+            //表格内容
+            sb.AppendLine("<tbody>");
+            List<UserTableColumns> columns = SearchFieldInfo(tableName);
+            foreach (UserTableColumns col in columns)
+            {
+                sb.AppendFormat("<tr>" +
+                    "<td>{0}</td>" +
+                    "<td>{1}</td>" +
+                    "<td>{2}</td></tr>", col.column_name, col.data_type, col.comments);
+
+                sb.AppendLine();   //一行html后主动换行
+            }
+            sb.AppendLine("</tbody>");
+
+            sb.AppendLine("</table>");
             return sb.ToString();
         }
 
