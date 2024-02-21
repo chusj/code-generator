@@ -45,6 +45,9 @@ namespace CodeAndTool
             {
                 writer.Write(content);
             }
+
+            this.toolStripStatusLabel1.Text = "HTML格式文件创建成功，" + DateTime.Now.ToString("hh:mm:ss");
+            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Green;
         }
 
         private string AppendHtml(List<UserTables> tables)
@@ -53,27 +56,31 @@ namespace CodeAndTool
 
             sb.AppendLine("<!DOCTYPE html>");
             sb.AppendLine("<html>");
-
+            //网页head部分
             sb.AppendLine("<head>");
             sb.AppendLine("<meta charset=\"utf-8\"> ");
             sb.AppendLine("<title>数据库说明文档,HTML格式</title>");
-            sb.AppendLine("<link rel=\"stylesheet\" href=\"https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css\"> ");
-            sb.AppendLine("<script src=\"https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js\"></script>");
-            sb.AppendLine("<script src=\"https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js\"></script>");
+            sb.AppendLine(" <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+            sb.AppendLine("<link rel=\"stylesheet\" href=\"https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css\">");
+            sb.AppendLine("<script src=\"https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js\"></script>");
+            sb.AppendLine("<script src=\"https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js\"></script>");
+            sb.AppendLine("<script src=\"https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js\"></script>");
             sb.AppendLine("</head>");
 
+            //网页body部分
             sb.AppendLine("<body>");
             sb.AppendLine("<div class=\"container\">");   //div开始1
             sb.AppendLine("<div class=\"row clearfix\">");//div开始2
 
+            #region 导航和内容
             //左侧导航
             sb.AppendLine("<div class=\"col-md-4 column\">");
-            sb.AppendLine("<ol>");
+            sb.AppendLine("<ul class=\"nav flex-column\">");
             foreach (UserTables t in tables)
             {
                 sb.Append(AppendHtmlNavModule(t.table_name));
             }
-            sb.AppendLine("</ol>");
+            sb.AppendLine("</ul>");
             sb.AppendLine("</div>");
 
             //右侧内容
@@ -83,7 +90,7 @@ namespace CodeAndTool
                 sb.Append(AppendHtmlContentModule(t.table_name, t.comments));
             }
             sb.AppendLine("</div>");
-
+            #endregion
 
             //结尾
             sb.AppendLine("</div>");  //div结束2
@@ -102,8 +109,8 @@ namespace CodeAndTool
         private string AppendHtmlNavModule(string tableName)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<li>");
-            sb.AppendFormat("<a href=\"#{0}\">{1}</a></li>", tableName, tableName);
+            sb.AppendLine("<li class=\"nav-item\">");
+            sb.AppendFormat("<a class=\"nav-link\" href=\"#{0}\">{1}</a>", tableName, tableName);
             sb.AppendLine("</li>");
             return sb.ToString();
         }
@@ -120,10 +127,10 @@ namespace CodeAndTool
             //表格上方的表名和注释
             sb.AppendFormat("<h3 id=\"{0}\">{1}</h3>", tableName, tableName);
             sb.AppendFormat("<p>{0}</p>", comments);
-            sb.AppendLine(" <table class=\"table\">");
+            sb.AppendLine("<table class=\"table table-bordered table-striped table-hover\">");
 
             //表头
-            sb.AppendLine("<thead>" +
+            sb.AppendLine("<thead class=\"thead-dark\">" +
                 "<tr><th>字段</th>" +
                 "<th>类型（长度）</th>" +
                 "<th>说明</th></tr> </thead>");
