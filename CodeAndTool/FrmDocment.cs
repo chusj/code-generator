@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Text;
+using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
 
 namespace CodeAndTool
 {
@@ -33,6 +34,8 @@ namespace CodeAndTool
         {
 
         }
+
+        #region HTML格式文档
 
         private void btnHtml_Click(object sender, EventArgs e)
         {
@@ -74,7 +77,7 @@ namespace CodeAndTool
 
             #region 导航和内容
             //左侧导航
-            sb.AppendLine("<div class=\"col-md-4 column\">");
+            sb.AppendLine("<div class=\"col-md-3 column\">");
             sb.AppendLine("<ul class=\"nav flex-column\">");
             foreach (UserTables t in tables)
             {
@@ -84,7 +87,7 @@ namespace CodeAndTool
             sb.AppendLine("</div>");
 
             //右侧内容
-            sb.AppendLine("<div class=\"col-md-8 column\">");
+            sb.AppendLine("<div class=\"col-md-9 column\">");
             foreach (UserTables t in tables)
             {
                 sb.Append(AppendHtmlContentModule(t.table_name, t.comments));
@@ -130,8 +133,9 @@ namespace CodeAndTool
             sb.AppendLine("<table class=\"table table-bordered table-striped table-hover\">");
 
             //表头
-            sb.AppendLine("<thead class=\"thead-dark\">" +
-                "<tr><th>字段</th>" +
+            sb.AppendLine("<thead class=\"thead-dark\"><tr>" +
+                "<th>#</th>" +
+                "<th>字段</th>" +
                 "<th>类型（长度）</th>" +
                 "<th>说明</th></tr> </thead>");
 
@@ -140,10 +144,17 @@ namespace CodeAndTool
             List<UserTableColumns> columns = SearchFieldInfo(tableName);
             foreach (UserTableColumns col in columns)
             {
+                string length = col.data_length;
+                if (col.data_type == "NUMBER")  //NUMBER类型使用精度 + 长度
+                {
+                    length = col.data_precision + "," + col.data_scale;
+                }
+
                 sb.AppendFormat("<tr>" +
                     "<td>{0}</td>" +
                     "<td>{1}</td>" +
-                    "<td>{2}</td></tr>", col.column_name, col.data_type, col.comments);
+                    "<td>{2}({3})</td>" +
+                    "<td>{4}</td></tr>", col.column_id, col.column_name, col.data_type, length, col.comments);
 
                 sb.AppendLine();   //一行html后主动换行
             }
@@ -152,6 +163,8 @@ namespace CodeAndTool
             sb.AppendLine("</table>");
             return sb.ToString();
         }
+
+        #endregion
 
         private void btnPdf_Click(object sender, EventArgs e)
         {
@@ -247,16 +260,13 @@ namespace CodeAndTool
             sb.Append(" FROM user_tab_comments a,user_tables b where a.table_name = b.table_name");
             sb.Append(" order by a.table_name");
 
-
-            DataTable dt = InitDb().Ado.GetDataTable(sb.ToString());
-
             int i = 0;
+            DataTable dt = InitDb().Ado.GetDataTable(sb.ToString());
             foreach (DataRow dr in dt.Rows)
             {
-                if (i > 10)
-                {
-                    break;
-                }
+                //if (i > 10)
+                //{ break; }
+
                 UserTables userTables = new UserTables();
                 userTables.table_name = dr[0].ToString();
                 userTables.comments = dr[1].ToString();
