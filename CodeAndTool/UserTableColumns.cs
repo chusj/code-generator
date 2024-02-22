@@ -46,6 +46,11 @@
 		public int column_id { get; set; }
 
 		/// <summary>
+		/// 是否可空：N.不可空  Y.可空
+		/// </summary>
+		public string nullable { get; set; }
+
+		/// <summary>
 		/// 注释
 		/// </summary>
 		public string comments { get; set; }

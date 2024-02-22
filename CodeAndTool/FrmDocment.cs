@@ -16,6 +16,7 @@ namespace CodeAndTool
             ConnStr = connStr;
 
             txbConnstr.Text = connStr;
+            this.toolStripStatusLabel1.Text = "操作提示，当前时间：" + DateTime.Now.ToString("hh:mm:ss");
         }
 
         private SqlSugarClient InitDb()
@@ -150,7 +151,17 @@ namespace CodeAndTool
                     length = col.data_precision + "," + col.data_scale;
                 }
 
-                sb.AppendFormat("<tr>" +
+                string trStyle = "<tr>";
+                if (col.column_name.ToUpper() == "ID")
+                {
+                    trStyle = "<tr class=\"table-primary\">";
+                }
+                else if (col.nullable == "N")
+                {
+                    trStyle = "<tr class=\"table-danger\">";
+                }
+
+                sb.AppendFormat(trStyle +
                     "<td>{0}</td>" +
                     "<td>{1}</td>" +
                     "<td>{2}({3})</td>" +
@@ -288,7 +299,7 @@ namespace CodeAndTool
         {
             //2.获取列信息
             StringBuilder sb = new StringBuilder();
-            sb.Append("select table_name, column_name, data_type, data_length, data_precision, data_scale, data_default, column_id,");
+            sb.Append("select table_name, column_name, data_type, data_length, data_precision, data_scale, data_default, column_id,nullable,");
             sb.Append("(select comments from user_col_comments b where a.table_name = b.table_name and a.column_name = b.column_name) as comments");
             sb.AppendFormat(" from user_tab_columns a where table_name = '{0}' order by a.column_id", tableName);
 
