@@ -179,7 +179,73 @@ namespace CodeAndTool
 
         private void btnPdf_Click(object sender, EventArgs e)
         {
+            // 假设这是从某个源获取或生成的数据
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Column1");
+            dataTable.Columns.Add("Column2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value1", "Value2");
+            dataTable.Rows.Add("Value2", "Value3");
 
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4"); 
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+            dataTable.Rows.Add("Value3", "Value4");
+
+
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+            dataTable.Rows.Add("Value6", "Value6");
+
+            string path = ConfigurationManager.AppSettings["FileSavePath"];
+            string fileName = DateTime.Now.ToString("yyyy-MM-dd") + ".pdf";
+
+            WritePdfFile.Write(path + fileName, dataTable);
         }
 
         private void btnMarkdown_Click(object sender, EventArgs e)
