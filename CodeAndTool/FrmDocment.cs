@@ -335,6 +335,7 @@ namespace CodeAndTool
             StringBuilder sb = new StringBuilder();
             sb.Append(" SELECT b.table_name,a.comments");
             sb.Append(" FROM user_tab_comments a,user_tables b where a.table_name = b.table_name");
+            sb.Append(" and a.table_name in ('CLIENT_INFO','REPORT_INFO','REPORT_INFO_OTHER','QUESTION_INFO','NYX_RECORD','NYX_RECORD_ITEM','NYX_RECORD_KEY','NYX_TRACKING','PROMOTION_PLAN','MANAGEMENT_USER','PROMOTION_PLAN_BUCHONG')");
             sb.Append(" order by a.table_name");
 
             int i = 0;
