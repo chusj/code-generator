@@ -223,21 +223,11 @@ namespace CodeAndTool
 
             List<UserTables> tableList = db.Ado.SqlQuery<UserTables>(sb.ToString());
 
-
             //拼接内容
             StringBuilder sbSqlScript = new StringBuilder();
             foreach (UserTables table in tableList)
             {
-                sbSqlScript.Append("comment on table ");
-                sbSqlScript.Append(table.table_name);
-                if (deleteComments)
-                {
-                    sbSqlScript.Append(" is '';");
-                }
-                else
-                {
-                    sbSqlScript.AppendFormat(" is '{0}';", RemoveNewLine(table.comments));
-                }
+                sbSqlScript.Append(AppendCommment(table.table_name,"", RemoveNewLine(table.comments)));
                 sbSqlScript.Append("\r\n");
             }
 
@@ -284,10 +274,23 @@ namespace CodeAndTool
             return sbSqlScript.ToString();
         }
 
-        
+        /// <summary>
+        /// 拼接comment
+        /// </summary>
+        /// <param name="tableName">表名，不可为空</param>
+        /// <param name="columnName">列名</param>
+        /// <param name="comments">注释</param>
+        /// <returns></returns>
         private string AppendCommment(string tableName, string columnName, string comments)
         {
-            return string.Format("comment on column {0}.{1} is '{2}'", tableName, columnName, comments);
+            if (string.IsNullOrEmpty(columnName))
+            {
+                return string.Format("comment on table {0} is '{1}';", tableName, comments);
+            }
+            else
+            {
+                return string.Format("comment on column {0}.{1} is '{2}';", tableName, columnName, comments);
+            }
         }
 
         /// <summary>
