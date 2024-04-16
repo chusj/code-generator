@@ -121,6 +121,7 @@ namespace CodeAndTool
                 StringBuilder sb = new StringBuilder();
                 StringBuilder sbSqlScript1 = new StringBuilder();
                 StringBuilder sbSqlScript2 = new StringBuilder();
+                StringBuilder sbSqlScript3 = new StringBuilder();
                 foreach (var item in listBox1.Items)
                 {
                     if (item is System.Data.DataRowView dataRowView)
@@ -143,6 +144,10 @@ namespace CodeAndTool
                             sbSqlScript2.Append(AppendColumnComments(tableName, true));
                             sb.Append("\r\n");
                         }
+                        if (chkField.Checked)
+                        {
+                            sbSqlScript3.Append(AppendColumnComments(tableName, true, true));
+                        }
                     }
                 }
 
@@ -156,9 +161,18 @@ namespace CodeAndTool
                 }
                 if (!string.IsNullOrEmpty(sbSqlScript2.ToString()))
                 {
-                    CreateSqlFile(path, "_3.清空列注释", sbSqlScript2.ToString());
+                    CreateSqlFile(path, "_3.清空全部字段注释", sbSqlScript2.ToString());
                     i++;
                 }
+                if (!string.IsNullOrEmpty(sbSqlScript3.ToString()))
+                {
+                    CreateSqlFile(path, "_4.清空部分字段注释", sbSqlScript3.ToString());
+                    i++;
+                }
+
+                //批量清空所有过滤字段的注释
+
+
                 OperationTips(i + "个文件,创建成功");
             }
         }
@@ -176,7 +190,7 @@ namespace CodeAndTool
         /// <param name="content">内容</param>
         private void CreateSqlFile(string diskPath, string tableName, string content)
         {
-            string fileName = DateTime.Now.ToString("yyyy-mm-dd") + tableName + ".sql"; //处理文件名
+            string fileName = DateTime.Now.ToString("yyyy-MM-dd") + tableName + ".sql"; //处理文件名
             string filePath = Path.Combine(diskPath, fileName);
 
             using (StreamWriter writer = new StreamWriter(filePath))
@@ -236,8 +250,10 @@ namespace CodeAndTool
         /// <param name="tableName">表名</param>
         /// <param name="deleteComments">删除注释</param>
         /// <returns>可执行sql语句</returns>
-        private string AppendColumnComments(string tableName, bool deleteComments = false)
+        private string AppendColumnComments(string tableName, bool deleteComments = false, bool filterField = false)
         {
+            string[] fieldArray = ConfigurationManager.AppSettings["FilterFields"].Split(",");
+
             SqlSugarClient db = InitDb();
 
             //2.获取列信息
@@ -254,23 +270,24 @@ namespace CodeAndTool
             sbSqlScript.Append("\r\n");
             foreach (UserTableColumns col in columnList)
             {
-                //拼接
-                sbSqlScript.Append("comment on column ");
-                sbSqlScript.Append(col.table_name);
-                sbSqlScript.Append(".");
-                sbSqlScript.Append(col.column_name);
-                if (deleteComments)
+                //写法，可用于清空非过滤字段
+                if (filterField && !fieldArray.Any(s => s.ToUpper() == col.column_name.ToUpper()))
                 {
-                    sbSqlScript.AppendFormat(" is ''");
+                    continue;
                 }
-                else
-                {
-                    sbSqlScript.AppendFormat(" is '{0}';", RemoveNewLine(col.comments));
-                }
+                string NewCommments = deleteComments ? string.Empty : RemoveNewLine(col.comments);
+                sbSqlScript.Append(AppendCommment(col.table_name, col.column_name, NewCommments));
+
                 sbSqlScript.Append("\r\n");
             }
 
             return sbSqlScript.ToString();
+        }
+
+        
+        private string AppendCommment(string tableName, string columnName, string comments)
+        {
+            return string.Format("comment on column {0}.{1} is '{2}'", tableName, columnName, comments);
         }
 
         /// <summary>

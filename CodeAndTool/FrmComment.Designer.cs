@@ -41,6 +41,7 @@
             label4 = new Label();
             chkTable = new CheckBox();
             chkColumn = new CheckBox();
+            chkField = new CheckBox();
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -94,9 +95,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(506, 42);
             label2.Name = "label2";
-            label2.Size = new Size(207, 31);
+            label2.Size = new Size(230, 31);
             label2.TabIndex = 5;
-            label2.Text = "生成的Model代码";
+            label2.Text = "生成的注释调整代码";
             // 
             // statusStrip1
             // 
@@ -159,19 +160,29 @@
             chkColumn.AutoSize = true;
             chkColumn.Checked = true;
             chkColumn.CheckState = CheckState.Checked;
-            chkColumn.Location = new Point(298, 759);
+            chkColumn.Location = new Point(266, 759);
             chkColumn.Name = "chkColumn";
             chkColumn.Size = new Size(166, 35);
             chkColumn.TabIndex = 16;
             chkColumn.Text = "清除列注释";
             chkColumn.UseVisualStyleBackColor = true;
-
             // 
-            // Form3
+            // chkField
+            // 
+            chkField.AutoSize = true;
+            chkField.Location = new Point(266, 830);
+            chkField.Name = "chkField";
+            chkField.Size = new Size(214, 35);
+            chkField.TabIndex = 17;
+            chkField.Text = "清除部分列注释";
+            chkField.UseVisualStyleBackColor = true;
+            // 
+            // FrmComment
             // 
             AutoScaleDimensions = new SizeF(14F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1619, 1003);
+            Controls.Add(chkField);
             Controls.Add(chkColumn);
             Controls.Add(chkTable);
             Controls.Add(label4);
@@ -184,7 +195,7 @@
             Controls.Add(BtnSearch);
             Controls.Add(txbTableName);
             Controls.Add(listBox1);
-            Name = "Form3";
+            Name = "FrmComment";
             Text = "Oracle注释脚本控制";
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
@@ -213,5 +224,6 @@
         private CheckBox chkRequestEntity;
         private CheckBox chkTable;
         private CheckBox chkColumn;
+        private CheckBox chkField;
     }
 }
