@@ -73,10 +73,11 @@ namespace ScopeJudge
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="actualValue">实际值</param>
+        /// <param name="rangeType">范围类型 1.大小值都包含(默认情况) 2.大小值都不包含 3.包含小值 4.包含大值</param>
         /// <param name="minValue">小值</param>
         /// <param name="maxValue">大值</param>
         /// <returns></returns>
-        bool IsInRange<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>;
+        bool IsInRange<T>(T actualValue, T minValue, T maxValue, int rangeType = 1) where T : IComparable<T>;
 
         /* 文字类包含业务不提取公共方法
         
