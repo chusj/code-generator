@@ -15,9 +15,9 @@ namespace ScopeJudge
         /// <param name="minValue">小值</param>
         /// <param name="maxValue">大值</param>
         /// <returns></returns>
-        public bool IsNotInRange<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
+        public static bool IsNotInRange<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
         {
-            return actualValue.CompareTo(minValue) >= 0 && actualValue.CompareTo(maxValue) <= 0;
+            return actualValue.CompareTo(maxValue) > 0 || actualValue.CompareTo(minValue) < 0;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace ScopeJudge
         /// <param name="minValue">小值</param>
         /// <param name="maxValue">大值</param>
         /// <returns></returns>
-        public bool IsWithInRange<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
+        public static bool IsInRange<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
         {
             return actualValue.CompareTo(minValue) >= 0 && actualValue.CompareTo(maxValue) <= 0;
         }
@@ -41,7 +41,7 @@ namespace ScopeJudge
         /// <param name="minValue">小值</param>
         /// <param name="maxValue">大值</param>
         /// <returns></returns>
-        public bool IsWithInRange2<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
+        public static bool IsInRange2<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
         {
             return actualValue.CompareTo(minValue) > 0 && actualValue.CompareTo(maxValue) < 0;
         }
@@ -54,7 +54,7 @@ namespace ScopeJudge
         /// <param name="minValue">小值</param>
         /// <param name="maxValue">大值</param>
         /// <returns></returns>
-        public bool IsWithInRange3<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
+        public static bool IsInRange3<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
         {
             return actualValue.CompareTo(minValue) > 0 && actualValue.CompareTo(maxValue) <= 0;
         }
@@ -67,7 +67,7 @@ namespace ScopeJudge
         /// <param name="minValue">小值</param>
         /// <param name="maxValue">大值</param>
         /// <returns></returns>
-        public bool IsWithInRange4<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
+        public static bool IsInRange4<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>
         {
             return actualValue.CompareTo(minValue) >= 0 && actualValue.CompareTo(maxValue) < 0;
         }

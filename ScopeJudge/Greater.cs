@@ -2,10 +2,13 @@
 
 namespace ScopeJudge
 {
+    /// <summary>
+    /// 大于判断
+    /// </summary>
     internal class Greater
     {
         /// <summary>
-        /// 大于
+        /// 大于 actualValue ＞ conditionValue
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="actualValue">实际值</param>
@@ -17,7 +20,7 @@ namespace ScopeJudge
         }
 
         /// <summary>
-        /// 大于等于
+        /// 大于等于 actualValue ≥ conditionValue
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="actualValue">实际值</param>

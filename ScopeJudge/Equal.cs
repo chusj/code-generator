@@ -2,15 +2,13 @@
 
 namespace ScopeJudge
 {
+    /// <summary>
+    /// 等于/不等于判断
+    /// </summary>
     public class Equal
     {
-        public static bool Equals(decimal actualValue, decimal conditionValue)
-        {
-            return actualValue.Equals(conditionValue);
-        }
-
         /// <summary>
-        /// 等于
+        /// 等于 actualValue = conditionValue
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="actualValue"></param>
@@ -22,7 +20,7 @@ namespace ScopeJudge
         }
 
         /// <summary>
-        /// 不等于
+        /// 不等于 actualValue != conditionValue
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="actualValue"></param>

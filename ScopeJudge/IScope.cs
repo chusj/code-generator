@@ -1,64 +1,85 @@
-﻿namespace ScopeJudge
+﻿using System;
+
+namespace ScopeJudge
 {
     interface IScope
     {
         /// <summary>
-        /// 小于
+        /// 等于 actualValue = conditionValue
         /// </summary>
-        /// <param name="actualValue">实际值</param>
-        /// <param name="conditionValue">条件值</param>
-        /// <returns></returns>
-        bool LessThan(decimal actualValue, decimal conditionValue);
-
-        /// <summary>
-        /// 小于等于
-        /// </summary>
-        /// <param name="actualValue">实际值</param>
-        /// <param name="conditionValue">条件值</param>
-        /// <returns></returns>
-        bool LessThanOrEqual(decimal actualValue, decimal conditionValue);
-
-        /// <summary>
-        /// 大于
-        /// </summary>
-        /// <param name="actualValue">实际值</param>
-        /// <param name="conditionValue">条件值</param>
-        /// <returns></returns>
-        bool GreaterThan(decimal actualValue, decimal conditionValue);
-
-        /// <summary>
-        /// 大于等于
-        /// </summary>
-        /// <param name="actualValue">实际值</param>
-        /// <param name="conditionValue">条件值</param>
-        /// <returns></returns>
-        bool GreatThanOrEqual(decimal actualValue, decimal conditionValue);
-
-        /// <summary>
-        /// 等于
-        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="actualValue"></param>
         /// <param name="conditionValue"></param>
         /// <returns></returns>
-        bool Equal(decimal actualValue, decimal conditionValue);
+        bool Equals<T>(T actualValue, T conditionValue) where T : IEquatable<T>;
 
         /// <summary>
-        /// 不等于
+        /// 不等于 actualValue != conditionValue
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="actualValue"></param>
         /// <param name="conditionValue"></param>
         /// <returns></returns>
-        bool NotEqual(decimal actualValue, decimal conditionValue);
+        bool NotEquals<T>(T actualValue, T conditionValue) where T : IEquatable<T>;
 
         /// <summary>
-        /// 范围
+        /// 大于 actualValue ＞ conditionValue
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="actualValue">实际值</param>
+        /// <param name="conditionValue">条件值</param>
+        /// <returns></returns>
+        bool GreaterThan<T>(T actualValue, T conditionValue) where T : IComparable<T>;
+
+        /// <summary>
+        /// 大于等于 actualValue ≥ conditionValue
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="actualValue">实际值</param>
+        /// <param name="conditionValue">条件值</param>
+        /// <returns></returns>
+        bool GreatThanOrEqual<T>(T actualValue, T conditionValue) where T : IComparable<T>;
+
+        /// <summary>
+        /// 小于 actualValue ＜ conditionValue
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="actualValue">实际值</param>
+        /// <param name="conditionValue">条件值</param>
+        /// <returns></returns>
+        bool LessThan<T>(T actualValue, T conditionValue) where T : IComparable<T>;
+
+        /// <summary>
+        /// 小于等于 actualValue ≤ conditionValue
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="actualValue">实际值</param>
+        /// <param name="conditionValue">条件值</param>
+        /// <returns></returns>
+        bool LessThanOrEqual<T>(T actualValue, T conditionValue) where T : IComparable<T>;
+
+        /// <summary>
+        /// 是否不在范围内  actualValue ＜ minValue 或者 actualValue ＞ maxValue
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="actualValue">实际值</param>
         /// <param name="minValue">小值</param>
         /// <param name="maxValue">大值</param>
         /// <returns></returns>
-        bool Range(decimal actualValue, decimal minValue, decimal maxValue);
+        bool IsNotInRange<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>;
 
+        /// <summary>
+        /// 是否在范围内(上下包含)  minValue ≤ actualValue ≤maxValue
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="actualValue">实际值</param>
+        /// <param name="minValue">小值</param>
+        /// <param name="maxValue">大值</param>
+        /// <returns></returns>
+        bool IsInRange<T>(T actualValue, T minValue, T maxValue) where T : IComparable<T>;
+
+        /* 文字类包含业务不提取公共方法
+        
         /// <summary>
         /// 包含
         /// </summary>
@@ -74,5 +95,7 @@
         /// <param name="keyWords"></param>
         /// <returns></returns>
         bool NotContain(string content, string keyWords);
+
+        */
     }
 }

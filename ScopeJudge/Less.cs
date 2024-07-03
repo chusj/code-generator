@@ -2,10 +2,13 @@
 
 namespace ScopeJudge
 {
+    /// <summary>
+    /// 小于判断
+    /// </summary>
     public  class Less
     {
         /// <summary>
-        /// 小于
+        /// 小于 actualValue ＜ conditionValue
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="actualValue">实际值</param>
@@ -17,7 +20,7 @@ namespace ScopeJudge
         }
 
         /// <summary>
-        /// 小于等于
+        /// 小于等于 actualValue ≤ conditionValue
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="actualValue">实际值</param>
