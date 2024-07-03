@@ -32,6 +32,16 @@ namespace ScopeJudge
         bool GreaterThan<T>(T actualValue, T conditionValue) where T : IComparable<T>;
 
         /// <summary>
+        /// 大于 actualValue ＞ maxValue * 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="actualValue">实际值</param>
+        /// <param name="maxValue">条件值</param>
+        /// <param name="multiple">倍数</param>
+        /// <returns></returns>
+        bool GreaterThan<T>(T actualValue, T maxValue,int multiple) where T : struct, IComparable<T>;
+
+        /// <summary>
         /// 大于等于 actualValue ≥ conditionValue
         /// </summary>
         /// <typeparam name="T"></typeparam>

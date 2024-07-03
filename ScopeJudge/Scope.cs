@@ -14,6 +14,11 @@ namespace ScopeJudge
             return Greater.GreaterThan(actualValue, conditionValue);
         }
 
+        public bool GreaterThan<T>(T actualValue, T conditionValue, int multiple) where T : struct, IComparable<T>
+        {
+            return Greater.GreaterThan(actualValue, conditionValue, multiple);
+        }
+
         public bool GreatThanOrEqual<T>(T actualValue, T conditionValue) where T : IComparable<T>
         {
             return Greater.GreatThanOrEqual(actualValue, conditionValue);
